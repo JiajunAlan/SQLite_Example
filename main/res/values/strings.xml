@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SQLite_Example</string>
+    <string name="hint_name">Enter name</string>
+    <string name="label_Name">Customer's Name:</string>
+    <string name="label_Age">Customer's Age</string>
+    <string name="hint_Age">Enter Age</string>
+    <string name="label_Premiun">Premium Member</string>
+    <string name="btn_Add">Add Customer</string>
+    <string name="btn_ViewAll">View All Customer</string>
 </resources>
