@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-        Button btn_Add, btn_ViewAll;
-        EditText et_Name, et_Age;
-        ListView lv_Result;
-        Switch sw_Premium;
+    Button btn_Add, btn_ViewAll, btn_EraseAll;
+    EditText et_Name, et_Age;
+    ListView lv_Result;
+    Switch sw_Premium;
+    ArrayAdapter adapter ;
+    List<CustomerModel> return_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         //initialize layout contents.
         btn_Add = findViewById(R.id.btn_Add);
         btn_ViewAll = findViewById(R.id.btn_ViewAll);
+        btn_EraseAll = findViewById(R.id.btn_EraseAll);
 
         et_Age = findViewById(R.id.input_Age);
         et_Name = findViewById(R.id.input_Name);
@@ -64,15 +67,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DataBase dataBase = new DataBase(MainActivity.this);
-                List<CustomerModel> list = new ArrayList<>();
-                list = dataBase.getAllCustomer();
 
-                ArrayAdapter allCustomers = new ArrayAdapter<CustomerModel>(MainActivity.this, android.R.layout.simple_list_item_1, list);
-                lv_Result.setAdapter(allCustomers);
+                return_list = dataBase.getAllCustomer();
+
+                adapter = new ArrayAdapter<CustomerModel>(MainActivity.this, android.R.layout.simple_list_item_1, return_list);
+                lv_Result.setAdapter(adapter);
 
                 //Toast.makeText(MainActivity.this, list.toString() , Toast.LENGTH_SHORT).show();
             }
         });
+
+        btn_EraseAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        //lv_Result.setOnItemSelectedListener(new);
 
     }
 

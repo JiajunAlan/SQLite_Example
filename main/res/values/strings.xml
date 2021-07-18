@@ -9,4 +9,5 @@
     <string name="btn_ViewAll">View All Customer</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="eraseDatabase">Erase Database</string>
 </resources>
