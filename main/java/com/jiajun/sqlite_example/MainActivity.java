@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CustomerModel customerModel;
                 String name = et_Name.getText().toString();
                 String age = et_Age.getText().toString();
                 try {
@@ -39,9 +40,12 @@ public class MainActivity extends AppCompatActivity {
                         //throw name input error.
                         throw new Exception("Name is empty!");
                     }else{
-                        CustomerModel customerModel = new CustomerModel(-1,name ,Integer.parseInt(age),sw_Premium.isChecked());
-                        
-                        Toast.makeText(MainActivity.this, customerModel.toString(),Toast.LENGTH_SHORT).show();
+                        customerModel = new CustomerModel(-1, name, Integer.parseInt(age), sw_Premium.isChecked());
+                        DataBase dataBase = new DataBase(MainActivity.this);
+                        boolean success = dataBase.add(customerModel);
+
+
+                        Toast.makeText(MainActivity.this, "Success = "+ success, Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){
                     if (name.equals("")){
