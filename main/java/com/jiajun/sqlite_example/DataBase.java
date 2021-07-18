@@ -2,10 +2,14 @@ package com.jiajun.sqlite_example;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBase extends SQLiteOpenHelper {
 
@@ -46,9 +50,35 @@ public class DataBase extends SQLiteOpenHelper {
         }else{
             return true;
         }
+    }
 
+    public List<CustomerModel> getAllCustomer(){
+        List<CustomerModel> result = new ArrayList<>();
+        // query of get all from db.
+        String query = "SELECT * FROM " + CUSTOMER_TABLE;
+        //we only need read permission.
+        SQLiteDatabase db = this.getReadableDatabase();
+        //use cursor to loop through results from database.
+        Cursor cursor = db.rawQuery(query, null);
 
+        if (cursor.moveToFirst()){
+            do {
+                //get customer data
+                int customerID = cursor.getInt(0);
+                String customerName = cursor.getString(1);
+                int customerAge = cursor.getInt(2);
+                boolean isPremium = cursor.getInt(3) == 1 ? true: false;
+                //construct new customerModel
+                CustomerModel customerModel = new CustomerModel(customerID,customerName,customerAge,isPremium);
+                //add to return list
+                result.add(customerModel);
 
+            }while (cursor.moveToNext());
+        }
+        //close cursor and db.
+        cursor.close();
+        db.close();
+        return result;
     }
 
 

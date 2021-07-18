@@ -1,19 +1,23 @@
 package com.jiajun.sqlite_example;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
         Button btn_Add, btn_ViewAll;
         EditText et_Name, et_Age;
-        RecyclerView rv_Result;
+        ListView lv_Result;
         Switch sw_Premium;
 
     @Override
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         et_Age = findViewById(R.id.input_Age);
         et_Name = findViewById(R.id.input_Name);
         sw_Premium = findViewById(R.id.sw_Premium);
-        rv_Result = findViewById(R.id.rv_result);
+        lv_Result = findViewById(R.id.lv_result);
 
         btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         DataBase dataBase = new DataBase(MainActivity.this);
                         boolean success = dataBase.add(customerModel);
 
-
                         Toast.makeText(MainActivity.this, "Success = "+ success, Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){
@@ -57,8 +60,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn_ViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataBase dataBase = new DataBase(MainActivity.this);
+                List<CustomerModel> list = new ArrayList<>();
+                list = dataBase.getAllCustomer();
 
+                ArrayAdapter allCustomers = new ArrayAdapter<CustomerModel>(MainActivity.this, android.R.layout.simple_list_item_1, list);
+                lv_Result.setAdapter(allCustomers);
 
+                //Toast.makeText(MainActivity.this, list.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

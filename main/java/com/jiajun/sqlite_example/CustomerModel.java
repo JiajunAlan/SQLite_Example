@@ -15,12 +15,11 @@ public class CustomerModel {
 
     @Override
     public String toString() {
-        return "Customer Info{" + "\n" +
-                "id = " + id + "\n" +
-                "Name= " + name + "\n" +
-                "age = " + age + "\n" +
-                "is Premium = " + isPremium +
-                '}';
+        return "Customer Info: " + "\n" +
+                "id: " + id + "\n" +
+                "Name: " + name + "\n" +
+                "age: " + age + "\n" +
+                "is Premium: " + isPremium;
     }
 
     public CustomerModel() {
