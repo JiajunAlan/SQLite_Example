@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //initialize layout contents.
         btn_Add = findViewById(R.id.btn_Add);
         btn_ViewAll = findViewById(R.id.btn_ViewAll);
 
@@ -31,9 +32,24 @@ public class MainActivity extends AppCompatActivity {
         btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomerModel customerModel = new CustomerModel(-1,et_Name.getText().toString() ,Integer.parseInt(et_Age.getText().toString()),sw_Premium.isChecked());
-
-                Toast.makeText(MainActivity.this,customerModel.toString(),Toast.LENGTH_SHORT).show();
+                String name = et_Name.getText().toString();
+                String age = et_Age.getText().toString();
+                try {
+                    if (name.equals("")){
+                        //throw name input error.
+                        throw new Exception("Name is empty!");
+                    }else{
+                        CustomerModel customerModel = new CustomerModel(-1,name ,Integer.parseInt(age),sw_Premium.isChecked());
+                        
+                        Toast.makeText(MainActivity.this, customerModel.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    if (name.equals("")){
+                        Toast.makeText(MainActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                    }else {
+                        Toast.makeText(MainActivity.this, "invalid age",Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
 
