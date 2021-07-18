@@ -3,7 +3,7 @@
 
 initial:  
 <img width="410" alt="Screen Shot 2021-07-18 at 3 10 07 AM" src="https://user-images.githubusercontent.com/59666402/126058837-0fe4d8ee-f043-47f2-b7ea-e2165ac42df9.png">   
-add Customer to database. 
+add Customer to database.     
 <img width="387" alt="Screen Shot 2021-07-18 at 3 11 19 AM" src="https://user-images.githubusercontent.com/59666402/126058869-9e22b07e-63e6-4e4b-9f6f-76e178846a4d.png">  
 
 show all customers.   
