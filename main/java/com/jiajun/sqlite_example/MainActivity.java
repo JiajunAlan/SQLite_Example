@@ -2,8 +2,11 @@ package com.jiajun.sqlite_example;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeKeyBoard();
                 CustomerModel customerModel;
                 String name = et_Name.getText().toString();
                 String age = et_Age.getText().toString();
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         return_list.clear();
                         return_list.add(customerModel);
                         updateListView(return_list);
-
+                        resetEditText();
                         Toast.makeText(MainActivity.this, "Added customer: "+ customerModel.getName(), Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         btn_ViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeKeyBoard();
+                resetEditText();
                 DataBase dataBase = new DataBase(MainActivity.this);
                 //get all customers.
                 return_list = dataBase.getAllCustomer();
@@ -78,9 +84,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        sw_Premium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeKeyBoard();
+            }
+        });
+
         btn_ShowPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeKeyBoard();
+                resetEditText();
                 DataBase dataBase = new DataBase(MainActivity.this);
                 updateListView(dataBase.getPremium());
             }
@@ -94,13 +109,19 @@ public class MainActivity extends AppCompatActivity {
                 boolean fail = dataBase.deleteOne(customerModel);
                 updateListView(dataBase.getAllCustomer());
                 if (!fail){
-                    Toast.makeText(MainActivity.this, "user id "+ customerModel.getId() + "user name: "+ customerModel.getName() + " deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "user id: "+ customerModel.getId() + " user name: "+ customerModel.getName() + " deleted", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(MainActivity.this, "user deletion failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
+    private void resetEditText() {
+        et_Name.setText("");
+        et_Age.setText("");
+    }
+
     /**update the List View
      * @param allCustomer List<CustomerModel>
      * **/
@@ -109,4 +130,11 @@ public class MainActivity extends AppCompatActivity {
         lv_Result.setAdapter(adapter);
     }
 
+    private void closeKeyBoard(){
+        View view = this.getCurrentFocus();
+        if (view != null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
+    }
 }

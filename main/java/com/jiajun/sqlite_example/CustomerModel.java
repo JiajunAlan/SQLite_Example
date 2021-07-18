@@ -16,7 +16,7 @@ public class CustomerModel {
     @Override
     public String toString() {
         if (id == -1){
-            return "Customer Info: " + "\n" +
+            return "Added Customer Info: " + "\n" +
                     "Name: " + name + "\n" +
                     "age: " + age + "\n" +
                     "is Premium: " + isPremium;
