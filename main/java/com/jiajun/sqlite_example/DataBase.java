@@ -34,6 +34,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     }
     /** add to database function.
+     * @param customerModel CustomerModel object.
      * **/
     public boolean add(CustomerModel customerModel){
         //get a writeable db
@@ -51,7 +52,24 @@ public class DataBase extends SQLiteOpenHelper {
             return true;
         }
     }
+    /** delete selected user by id match.
+     * @param customerModel CustomerModel object.
+     * **/
+    public boolean deleteOne(CustomerModel customerModel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //write deletion query
+        String query = "DELETE FROM " + CUSTOMER_TABLE + " WHERE " + ID + " = " + customerModel.getId();
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.moveToFirst()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
+    /**return all CustomerModel in database as a list.
+     * @return List of CustomerModel existed in database.
+     * **/
     public List<CustomerModel> getAllCustomer(){
         List<CustomerModel> result = new ArrayList<>();
         // query of get all from db.
@@ -81,7 +99,32 @@ public class DataBase extends SQLiteOpenHelper {
         return result;
     }
 
+    public List<CustomerModel> getPremium(){
+        List<CustomerModel> result = new ArrayList<>();
+        // query of get all Premium from db.
+        String query = "SELECT * FROM " + CUSTOMER_TABLE + " WHERE "+ PREMIUM_MEMBER + " = 1";
+        //we only need read permission.
+        SQLiteDatabase db = this.getReadableDatabase();
+        //use cursor to loop through results from database.
+        Cursor cursor = db.rawQuery(query, null);
 
+        if (cursor.moveToFirst()){
+            do {
+                //get customer data
+                int customerID = cursor.getInt(0);
+                String customerName = cursor.getString(1);
+                int customerAge = cursor.getInt(2);
+                boolean isPremium = cursor.getInt(3) == 1 ? true: false;
+                //construct new customerModel
+                CustomerModel customerModel = new CustomerModel(customerID,customerName,customerAge,isPremium);
+                //add to return list
+                result.add(customerModel);
 
-
+            }while (cursor.moveToNext());
+        }
+        //close cursor and db.
+        cursor.close();
+        db.close();
+        return result;
+    }
 }

@@ -15,45 +15,35 @@ public class CustomerModel {
 
     @Override
     public String toString() {
-        return "Customer Info: " + "\n" +
+        if (id == -1){
+            return "Customer Info: " + "\n" +
+                    "Name: " + name + "\n" +
+                    "age: " + age + "\n" +
+                    "is Premium: " + isPremium;
+        }else{
+            return "Customer Info: " + "\n" +
                 "id: " + id + "\n" +
                 "Name: " + name + "\n" +
                 "age: " + age + "\n" +
                 "is Premium: " + isPremium;
-    }
-
-    public CustomerModel() {
+        }
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public boolean isPremium() {
         return isPremium;
     }
 
-    public void setPremium(boolean premium) {
-        isPremium = premium;
-    }
 }

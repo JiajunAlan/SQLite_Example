@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Button btn_Add, btn_ViewAll, btn_EraseAll;
+    Button btn_Add, btn_ViewAll, btn_ShowPremium;
     EditText et_Name, et_Age;
     ListView lv_Result;
     Switch sw_Premium;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         //initialize layout contents.
         btn_Add = findViewById(R.id.btn_Add);
         btn_ViewAll = findViewById(R.id.btn_ViewAll);
-        btn_EraseAll = findViewById(R.id.btn_EraseAll);
+        btn_ShowPremium = findViewById(R.id.btn_ShowPremium);
 
         et_Age = findViewById(R.id.input_Age);
         et_Name = findViewById(R.id.input_Name);
@@ -50,8 +51,11 @@ public class MainActivity extends AppCompatActivity {
                         customerModel = new CustomerModel(-1, name, Integer.parseInt(age), sw_Premium.isChecked());
                         DataBase dataBase = new DataBase(MainActivity.this);
                         boolean success = dataBase.add(customerModel);
+                        return_list.clear();
+                        return_list.add(customerModel);
+                        updateListView(return_list);
 
-                        Toast.makeText(MainActivity.this, "Success = "+ success, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Added customer: "+ customerModel.getName(), Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){
                     if (name.equals("")){
@@ -67,25 +71,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DataBase dataBase = new DataBase(MainActivity.this);
-
+                //get all customers.
                 return_list = dataBase.getAllCustomer();
-
-                adapter = new ArrayAdapter<CustomerModel>(MainActivity.this, android.R.layout.simple_list_item_1, return_list);
-                lv_Result.setAdapter(adapter);
-
+                updateListView(return_list);
                 //Toast.makeText(MainActivity.this, list.toString() , Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_EraseAll.setOnClickListener(new View.OnClickListener() {
+        btn_ShowPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DataBase dataBase = new DataBase(MainActivity.this);
+                updateListView(dataBase.getPremium());
             }
         });
 
-        //lv_Result.setOnItemSelectedListener(new);
-
+        lv_Result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CustomerModel customerModel = (CustomerModel) parent.getItemAtPosition(position);
+                DataBase dataBase = new DataBase(MainActivity.this);
+                boolean fail = dataBase.deleteOne(customerModel);
+                updateListView(dataBase.getAllCustomer());
+                if (!fail){
+                    Toast.makeText(MainActivity.this, "user id "+ customerModel.getId() + "user name: "+ customerModel.getName() + " deleted", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MainActivity.this, "user deletion failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    /**update the List View
+     * @param allCustomer List<CustomerModel>
+     * **/
+    private void updateListView(List<CustomerModel> allCustomer) {
+        adapter = new ArrayAdapter<CustomerModel>(MainActivity.this, android.R.layout.simple_list_item_1, allCustomer);
+        lv_Result.setAdapter(adapter);
     }
 
 }

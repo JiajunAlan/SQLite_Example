@@ -99,7 +99,7 @@
         android:text="@string/btn_ViewAll"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_Add"
-        app:layout_constraintEnd_toStartOf="@+id/btn_EraseAll"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ShowPremium"
         app:layout_constraintStart_toEndOf="@+id/btn_Add"
         app:layout_constraintTop_toTopOf="@+id/btn_Add" />
 
@@ -120,14 +120,14 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_Add" />
 
     <Button
-        android:id="@+id/btn_EraseAll"
+        android:id="@+id/btn_ShowPremium"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="@string/eraseDatabase"
+        android:text="@string/btn_ShowPremium"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_Add"
         app:layout_constraintEnd_toEndOf="parent"
